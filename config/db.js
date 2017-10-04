@@ -1,3 +1,3 @@
 module.exports = {
-  url: "mongodb://localhost:27017/authentication"
+  url: "mongodb://admin:admin@ds161304.mlab.com:61304/votingapp"
 }

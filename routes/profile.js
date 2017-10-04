@@ -5,7 +5,7 @@ var User = require('../model/user.js');
 
 router.get('/', isLoggedIn,function(req, res){
   console.log(req.user);
-  Poll.find({"createBy": req.user.createdBy}, function(err, polls){
+  Poll.find({"createdBy": req.user._id}, function(err, polls){
     if(err){
       console.log(err);
       return;
@@ -37,8 +37,6 @@ router.post('/addPoll', isLoggedIn, function(req,res){
   var title = req.body.title;
   var answer = req.body.answer;
   var createdUser = req.user._id;
-  console.log(answer)
-  console.log(typeof answer);
   Poll.findOne({"title": title}, function(err, poll){
     if(err){
       throw error;
@@ -67,15 +65,15 @@ router.post('/addPoll', isLoggedIn, function(req,res){
         });
       }
       //adding IP to check if the user is already voted
-      var ip = req.connection.remoteAddress;
-      newPoll.ip.push({
-        address: ip,
-        voted: false
+      // var ip = req.connection.remoteAddress;
+      // newPoll.ip.push({
+      //   address: ip,
+      //   voted: false
+      // })
+      newPoll.voteBy.push({
+        userID: req.user._id,
+        isVoted: false
       })
-      // newPoll.answer.push({
-      //   title: title,
-      //   number: 1
-      // });
       newPoll.save(function(err){
         if(err){
           console.log(err);
@@ -83,10 +81,7 @@ router.post('/addPoll', isLoggedIn, function(req,res){
         res.redirect('/profile');
       })
     }
-  });
-  // console.log(req.body.answer[0]);
-  // res.json(req.body);
-  
+  }); 
 });
 
 //myPoll
@@ -123,10 +118,10 @@ router.post('/:id', isLoggedIn, function(req,res){
       return;
     }
     //check if the person is already voted
-    for(var i = 0 ; i<poll.ip.length; i++){
-      var checkIp = poll.ip[i].address;
-      var isVoted = poll.ip[i].voted;
-      if((checkIp == req.connection.remoteAddress) && (isVoted == true)){
+    for(var i = 0 ; i<poll.voteBy.length; i++){
+      var checkUserID = poll.voteBy[i].userID;
+      var isVoted = poll.voteBy[i].isVoted;
+      if((checkUserID == req.user._id) && (isVoted == true)){
         req.flash('pollMessage', 'You are already voted');
         res.redirect('/profile/'+id);
         return;
@@ -134,13 +129,17 @@ router.post('/:id', isLoggedIn, function(req,res){
     }
     //If the person is not voted
     poll.answer[index].number++;
-    for(var i = 0; i< poll.ip.length; i++){
-      var checkIp = poll.ip[i].address;
-      if(checkIp == req.connection.remoteAddress){
-        poll.ip[i].voted = true;
-        break;
-      }
-    }
+    poll.voteBy.push({
+      userID: req.user._id,
+      isVoted: true
+    });
+    // for(var i = 0; i< poll.voteBy.length; i++){
+    // //   var checkUserID = poll.voteBy[i].userID;
+    // //   if(checkUserID == req.user._id){
+    // //     poll.voteBy[i].isVoted = true;
+    // //     break;
+    // //   }
+    // // }
     poll.save(function(err){
       if(err){
         console.log(err);

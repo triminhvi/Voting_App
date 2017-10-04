@@ -15,17 +15,25 @@ var mongoose = require('mongoose');
 
 var PollSchema = mongoose.Schema({
   createdBy: String,
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
   title: String,
   answer: [{
     title: String,
     number: Number
   }],
-  ip: [{
-    address: String,
-    voted: {
-      type: Boolean,
-      default: false
-    }
+  // ip: [{
+  //   address: String,
+  //   voted: {
+  //     type: Boolean,
+  //     default: false
+  //   }
+  // }],
+  voteBy: [{
+    userID: String,
+    isVoted: Boolean
   }]
 });
 

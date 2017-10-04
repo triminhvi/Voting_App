@@ -1,4 +1,4 @@
-<nav class="navbar navbar-toggleable-md navbar-default bg-warning">
+<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
   <div class="container">
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -20,11 +20,14 @@
             <!-- If there is a req.user -->
             <%if (user) { %>
               <li class="nav-item active">
+                <a class="nav-link" href="/profile">Welcome <span><%= user.local.username %></span><span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item active">
                   <a class="nav-link" href="/auth/logout">Logout <span class="sr-only">(current)</span></a>                  
               </li>
               <li class="nav-item active">
                   <li class="nav-item active">
-                      <iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&layout=button&size=small&mobile_iframe=true&width=59&height=20&appId" width="60px" height="35px" style="border:none;overflow:visible !important; padding-top: 10px;" scrolling="no" frameborder="0" allowTransparency="true"></iframe>               
+                      <iframe src="https://tv-voteapp.herokuapp.com" width="60px" height="35px" style="border:none;overflow:visible !important; padding-top: 10px;" scrolling="no" frameborder="0" allowTransparency="true"></iframe>               
                   </li>                  
               </li>
             <% } else { %> <!-- else there is not req.user -->

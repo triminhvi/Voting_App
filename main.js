@@ -9,12 +9,15 @@ var url = require('./config/db.js').url;
 mongoose.connect(url);
 var passport = require('passport');
 var flash = require('connect-flash');
+var favicon = require('serve-favicon')
+var path = require('path');
 var app = express();
 
 /* ****************************************** */
 app.set('view engine', 'ejs');
 app.set('views', './views');
 app.use(express.static('public'));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(helmet());
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -71,6 +74,7 @@ app.get('/', function(req, res){
   });
 });
 
+//GET SINGLE VOTE
 app.get('/:id', function(req, res){
   var id = req.params.id;
   Poll.findOne({"_id": id}, function(err, poll){
@@ -78,48 +82,50 @@ app.get('/:id', function(req, res){
       console.log(err);
       return;
     }
+
     res.render('singlePoll', {title: "Single Poll",
                               poll: poll,
                               message: req.flash('pollMessage')});
   });
 }); 
 
-app.post('/:id', function(req,res){
-  var id = req.params.id;
-  var index = req.body.optionsRadios;
-  Poll.findOne({'_id': id}, function(err, poll){
-    if(err){
-      console.log(err);
-      return;
-    }
-    //check if the person is already voted
-    for(var i = 0 ; i<poll.ip.length; i++){
-      var checkIp = poll.ip[i].address;
-      var isVoted = poll.ip[i].voted;
-      if((checkIp == req.connection.remoteAddress) && (isVoted == true)){
-        req.flash('pollMessage', 'You are already voted');
-        res.redirect('/'+id);
-        return;
-      }
-    }
-    //If the person is not voted
-    poll.answer[index].number++;
-    for(var i = 0; i< poll.ip.length; i++){
-      var checkIp = poll.ip[i].address;
-      if(checkIp == req.connection.remoteAddress){
-        poll.ip[i].voted = true;
-        break;
-      }
-    }
-    poll.save(function(err){
-      if(err){
-        console.log(err);
-        return;
-      }
-      res.redirect('/'+id);
-    });
-  });
-});
+
+// app.post('/:id', function(req,res){
+//   var id = req.params.id;
+//   var index = req.body.optionsRadios;
+//   Poll.findOne({'_id': id}, function(err, poll){
+//     if(err){
+//       console.log(err);
+//       return;
+//     }
+//     //check if the person is already voted
+//     for(var i = 0 ; i<poll.ip.length; i++){
+//       var checkIp = poll.ip[i].address;
+//       var isVoted = poll.ip[i].voted;
+//       if((checkIp == req.connection.remoteAddress) && (isVoted == true)){
+//         req.flash('pollMessage', 'You are already voted');
+//         res.redirect('/'+id);
+//         return;
+//       }
+//     }
+//     //If the person is not voted
+//     poll.answer[index].number++;
+//     for(var i = 0; i< poll.ip.length; i++){
+//       var checkIp = poll.ip[i].address;
+//       if(checkIp == req.connection.remoteAddress){
+//         poll.ip[i].voted = true;
+//         break;
+//       }
+//     }
+//     poll.save(function(err){
+//       if(err){
+//         console.log(err);
+//         return;
+//       }
+//       res.redirect('/'+id);
+//     });
+//   });
+// });
 
 app.listen(process.env.PORT || 3000, function(){
   console.log('Listening on port 3000');

@@ -10,20 +10,26 @@
     <% } %>
       <div class="jumbotron jumbotron-fluid text-center">
           <h1 class="display-3">Voting Application</h1>
-          <p class="lead">This is a fullstack voting application with Passport JS authentication.</p>      
-          <p class="lead">
-            <a class="btn btn-primary btn-lg" href="/auth/signup" role="button">Sign Up</a>
-            <a class="btn btn-primary btn-lg" href="/auth/login" role="button">Log In</a>
-          </p>
+          <p class="lead">This is a fullstack voting application with Passport JS authentication.</p>
+          <% if (user){ %>
+            <p class="lead">
+              <a class="btn btn-success btn-lg" href="/profile" role="button">Dashboard</a>
+            </p>
+          <% } else { %>
+            <p class="lead">
+              <a class="btn btn-primary btn-lg" href="/auth/signup" role="button">Sign Up</a>
+              <a class="btn btn-primary btn-lg" href="/auth/login" role="button">Log In</a>
+            </p>
+          <% }%>
       </div>
       <div class="container" id="pollTableForEveryOne">
-          <h2>Poll Table</h2>
-          <table class="table">
-              <thead>
+          <h2>Polls Table</h2>
+          <table class="table table-hover">
+              <thead class="thead-inverse">
                 <tr>
                   <th>#</th>
                   <th>Poll Title</th>
-                  <th>Vote</th>
+                  <th class="text-center">Vote</th>
                 </tr>
               </thead>
               <tbody>
@@ -31,7 +37,7 @@
                     <tr>
                       <th scope="row"><%= i+1 %></th>
                       <td><a href="/<%= poll._id%>"><%= poll.title %></a></td>
-                      <td><a href="/<%= poll._id %>" class="btn btn-primary">Vote</a></td>    
+                      <td class="text-center"><a href="/<%= poll._id %>" class="btn btn-primary">Vote</a></td>   
                     </tr>
                   <% }) %>
               </tbody>

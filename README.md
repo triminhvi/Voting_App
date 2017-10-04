@@ -4,6 +4,7 @@
 This application is a full stack JavaScript voting app that let the users to create their account and create their own polls. The application uses PassportJS to authenticate the users when they sign up account and perform login session.
 
 The logic of the appication is described below:
+
 **As an authenticatied user**
 - The user can keep the user's polls and come back later to access them.
 - The user can share the user's polls with the user's friends

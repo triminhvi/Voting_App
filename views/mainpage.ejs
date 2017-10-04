@@ -1,10 +1,43 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        
-    </head>
-    <body>
-        
-
-    </body>
+  <% include ./partials/head %>
+  <body>
+    <%- include ./partials/navbar %>
+    <% if(message.length > 0) { %>
+      <div class="alert alert-warning mt-2 container" role="alert">
+          <strong><%= message %></strong>
+        </div>
+    <% } %>
+      <div class="jumbotron jumbotron-fluid text-center">
+          <h1 class="display-3">Voting Application</h1>
+          <p class="lead">This is a fullstack voting application with Passport JS authentication.</p>      
+          <p class="lead">
+            <a class="btn btn-primary btn-lg" href="/auth/signup" role="button">Sign Up</a>
+            <a class="btn btn-primary btn-lg" href="/auth/login" role="button">Log In</a>
+          </p>
+      </div>
+      <div class="container" id="pollTableForEveryOne">
+          <h2>Poll Table</h2>
+          <table class="table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Poll Title</th>
+                  <th>Vote</th>
+                </tr>
+              </thead>
+              <tbody>
+                  <% polls.forEach(function(poll, i){ %>
+                    <tr>
+                      <th scope="row"><%= i+1 %></th>
+                      <td><a href="/<%= poll._id%>"><%= poll.title %></a></td>
+                      <td><a href="/<%= poll._id %>" class="btn btn-primary">Vote</a></td>    
+                    </tr>
+                  <% }) %>
+              </tbody>
+            </table>
+      </div>
+    <% include ./partials/footer %>
+    <% include ./partials/script %>
+  </body>
 </html>

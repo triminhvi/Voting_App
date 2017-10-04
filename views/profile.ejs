@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <%- include ./partials/head %>
+  <body>
+      <%- include ./partials/navbar %>
+      <div class="jumbotron jumbotron-fluid text-center">
+        <div class="container">
+          <h1 class="display-3">Dashboard</h1>
+          <p class="lead">What would you like to do today?</p>
+          <p class="lead">
+            <a class="btn btn-primary btn-lg" href="/profile/addPoll" role="button">New Poll</a>
+          </p>
+        </div>
+      </div>
+      <div class="container" id="pollTable">
+        <h2>My Poll Table</h2>
+        <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Poll Title</th>
+                <th>Modification</th>
+              </tr>
+            </thead>
+            <tbody>
+                <% polls.forEach(function(poll, i){ %>
+                  <tr>
+                    <th scope="row"><%= i+1 %></th>
+                    <td><a href="/profile/<%= poll._id%>"><%= poll.title %></a></td>
+                    <td><a href="/profile/delete/<%= poll._id %>" class="btn btn-danger">Delete</a></td>    
+                  </tr>
+                <% }) %>
+            </tbody>
+          </table>
+      </div>
+      <% include ./partials/footer %>
+    <%- include ./partials/script %>
+    
+  </body>
+</html>

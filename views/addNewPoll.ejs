@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <% include ./partials/head %>
+  <body>
+    <% include ./partials/navbar %>
+    <!-- Flash Message if Poll is already existed -->
+    <% if(message.length > 0) { %>
+      <div class="alert alert-warning mt-4 container" role="alert">
+          <strong><%= message %></strong>
+        </div>
+    <% } %>
+    <div class="container mt-4">
+      <form action="/profile/addPoll" method="post">
+        <h3>Add New Poll</h3>
+        <div class="form-group">
+          <label for="title"><strong>Name Your Poll:</strong></label>
+          <input type="text" class="form-control" name="title" placeholder="What is your favorite pokemon?">
+        </div>
+        <div class="form-group" id="answerGroup">
+          <label for="answer"><strong>Your Answer</strong></label>
+          <input type="text" class="form-control answer" name="answer" placeholder="Pikachu">
+        </div>
+        <button id="moreOptionBtn" class="btn btn-primary btn-block">More Options</button>
+        <input type="submit" id="submitBtn" class="btn btn-success btn-block" value="Submit">
+      </form>
+    </div>
+    <% include ./partials/footer %>
+
+    <!-- Script -->
+    <% include ./partials/script %>
+    <script>
+      $(document).ready(function(){
+        $('#moreOptionBtn').click(function(e){
+          e.preventDefault();
+          //console.log('button click');
+          $("#answerGroup").append('<input type="text" class="form-control mt-2 answer" name="answer" placeholder="New Option">')
+        });
+
+        //Get All Values from Answer Class When Submit
+        // $('#submitBtn').click(function(e){
+        //   e.preventDefault();
+        //   $(".answer").each(function(){
+        //     console.log($(this).val());
+        //   })
+        // });
+      });
+    </script>
+  </body>
+</html>

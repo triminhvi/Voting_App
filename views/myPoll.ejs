@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <% include ./partials/head %>
+  <body>  
+    <%- include ./partials/navbar %>
+    <div class="container mt-4">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Poll Title</th>
+            <th>Modification</th>
+          </tr>
+        </thead>
+        <tbody>
+            <% polls.forEach(function(poll, i){ %>
+              <tr>
+                <th scope="row"><%= i+1 %></th>
+                <td><a href="/profile/myPoll/<%= poll._id%>"><%= poll.title %></a></td>
+                <td><a href="/profile/myPoll/delete/<%= poll._id %>" class="btn btn-danger">Delete</a></td>    
+              </tr>
+            <% }) %>
+        </tbody>
+      </table>
+        <!-- <ul>
+            <% polls.forEach(function(poll){ %>
+              <li><a href="/profile/myPoll/<%= poll._id%>"><%= poll.title %></a></li>
+              <div class="button-group mt-2 mb-2">
+                <a href="/profile/myPoll/delete/<%= poll._id %>" class="btn btn-danger">Delete</a>
+              </div>
+            <% }) %>
+          </ul> -->
+    </div>
+    <% include ./partials/footer %>
+    <% include ./partials/script %>
+  </body>
+</html>

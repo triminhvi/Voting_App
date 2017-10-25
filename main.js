@@ -1,4 +1,4 @@
-var compression = require('compresion');
+var compression = require('compression');
 var express = require('express');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
